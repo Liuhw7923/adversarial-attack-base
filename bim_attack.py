@@ -183,15 +183,10 @@ def main():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--img_dir', type=str, \
-       default='', help='原始图像路径')
-    parser.add_argument('--output_dir', type=str, \
-       default='', help='保存图片路径')
-    parser.add_argument('--img_txt_dir', type=str, \
-       default='', help='图像名称及标签的txt文本路径')
-    parser.add_argument('--csv_path', type=str, \
-       default='',\
-                        help='图像名称及标签的csv文本路径')
+    parser.add_argument('--img_dir', type=str, default='', help='原始图像路径')
+    parser.add_argument('--output_dir', type=str, default='', help='保存图片路径')
+    parser.add_argument('--img_txt_dir', type=str, default='', help='图像名称及标签的txt文本路径')
+    parser.add_argument('--csv_path', type=str, default='',help='图像名称及标签的csv文本路径')
     parser.add_argument('--imgsize', type=int, default=224, help='')
     parser.add_argument('--mean', type=float, default=np.array([0.5, 0.5, 0.5]), help='mean.')
     parser.add_argument('--std', type=float, default=np.array([0.5, 0.5, 0.5]), help='std.')
