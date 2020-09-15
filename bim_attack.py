@@ -86,6 +86,14 @@ def margin_loss(output, orig_label):
     return pert_label, loss
 
 
+def sign_x(grad):
+    left = -torch.ones_like(grad)
+    right = torch.ones_like(grad)
+    grad[grad < left] = left[grad < left]
+    grad[grad > right] = right[grad > right]
+    return grad
+
+
 def one_step(image, grad, step_size, target):
     if target:
         return image.data - step_size * torch.tanh(grad)
