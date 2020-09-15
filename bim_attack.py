@@ -139,7 +139,7 @@ def save_image(img_path, img, perturbed_img, output_dir):
     permute(1, 2, 0).div_(2).add_(0.5).mul_(255).type(torch.uint8).numpy()
     im_adv = perturbed_img.clone().detach().to(torch.device('cpu')).\
     squeeze(0).permute(1, 2, 0).div_(2).add_(0.5).mul_(255).type(torch.uint8).numpy()
-    pert_img = np.absolute(im_ori - im_adv)
+    pert_img = np.maximum((im_adv - im_ori), (im_ori - im_adv))
     im_ori, im_adv, pert_img = Image.fromarray(im_ori), Image.fromarray(im_adv), Image.fromarray(pert_img)
     im = Image.new('RGB', (3*opt.imgsize, opt.imgsize))
     im.paste(im_ori, (0, 0, opt.imgsize, opt.imgsize))
