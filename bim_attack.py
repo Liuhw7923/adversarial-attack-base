@@ -98,7 +98,11 @@ def bim_attack(img, ori_label, model, target, eps, step_size, max_epoch):
     img_max = clip_by_tensor(img + 2.0 * eps, -1.0, 1.0)
     image = img.clone()
     image.requires_grad = True
-    target_label = torch.randint(0, 1000, (1,)).to(device)
+    gt_output = model(img)
+    #target_label = gt_output.argmin(1).to(device)
+    _, b = gt_output.sort(descending=True)
+    i = torch.randint(1, 10, (1,)).to(device)
+    target_label = b[0,i]
     if target:
         print('The target label is: {}'.format(target_label.item()))
     for i in range(max_epoch):
@@ -127,7 +131,7 @@ def save_image(img_path, img, perturbed_img, output_dir):
     permute(1, 2, 0).div_(2).add_(0.5).mul_(255).type(torch.uint8).numpy()
     im_adv = perturbed_img.clone().detach().to(torch.device('cpu')).\
     squeeze(0).permute(1, 2, 0).div_(2).add_(0.5).mul_(255).type(torch.uint8).numpy()
-    pert_img = im_ori - im_adv
+    pert_img = np.absolute(im_ori - im_adv)
     im_ori, im_adv, pert_img = Image.fromarray(im_ori), Image.fromarray(im_adv), Image.fromarray(pert_img)
     im = Image.new('RGB', (3*opt.imgsize, opt.imgsize))
     im.paste(im_ori, (0, 0, opt.imgsize, opt.imgsize))
