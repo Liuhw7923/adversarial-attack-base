@@ -81,7 +81,7 @@ def mim_attack(img, orig_label, net, momentum, restart_number, target, eps, step
         adv_img = img + ((torch.rand(img.size()) - 0.5) * 4.0 * eps).to(device)
         adv_img = clip_by_image(adv_img.data, img_min, img_max)
         adv_img.requires_grad = True
-        noise = torch.zeros_like(img).to(device)
+        noise = torch.zeros_like(img)
         for j in range(max_epoch):
             zero_gradients(adv_img)
             output = net(adv_img)
