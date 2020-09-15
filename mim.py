@@ -93,7 +93,7 @@ def mim_attack(img, orig_label, net, momentum, restart_number, target, eps, step
             grad = adv_img.grad.data
             grad = grad / grad.abs().view(-1).sum()
             noise = momentum * noise + grad
-            adv_img = one_step(adv_img, grad, step_size, target)
+            adv_img = one_step(adv_img, noise, step_size, target)
             adv_img = clip_by_image(adv_img.data, img_min, img_max)
             adv_img = V(adv_img, requires_grad=True)
         if not flag:
