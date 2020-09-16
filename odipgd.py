@@ -147,7 +147,7 @@ def main():
     X = ImageNet_txt(opt.img_dir, opt.img_txt_dir, transforms)
     data_loader = DataLoader(X, batch_size=opt.batch_size, shuffle=False)
     model_type = 'models.' + opt.classifier
-    model = eval(model_type)(pretrained=True).to(device)
+    model = eval(model_type)(pretrained=True).to(device).eval()
     for parameter in model.parameters():
         parameter.requires_grad = False
     total = 0
