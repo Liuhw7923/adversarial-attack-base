@@ -77,11 +77,6 @@ def bim_ilcm_attack(img, ori_label, model, target, eps, step_size, max_epoch):
     
     gt_output = model(img)
     target_label = gt_output.argmin(1).to(device)
-    '''
-    _, b = gt_output.sort(descending=True)
-    i = torch.randint(1, 10, (1,)).to(device)
-    target_label = b[0,i]
-    '''
     image = img.clone()
     image.requires_grad = True
     if target:
@@ -144,9 +139,6 @@ def main():
             continue
         perturbed_img, final_label, iter_num, target_label = bim_ilcm_attack(img, label, model, \
                          opt.target, opt.eps, opt.step_size, opt.max_epoch)
-        if iter_num == 1:
-            incorrect += 1
-            continue
         if opt.target:
             if final_label == target_label:
                 success += 1
